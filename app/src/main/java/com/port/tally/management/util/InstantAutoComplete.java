@@ -35,7 +35,7 @@ public class InstantAutoComplete extends AutoCompleteTextView {
         if (focused) {
             Log.i("getText()", "" + getText().toString());
             if (!getText().equals(""))
-            performFiltering(getText(), 0);
+            performFiltering(getText().toString(), 0);
         }
     }
 

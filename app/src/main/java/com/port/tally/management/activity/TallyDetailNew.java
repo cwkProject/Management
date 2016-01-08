@@ -370,7 +370,7 @@ public class TallyDetailNew extends TabActivity {
 
                         }
 //                        Log.i("maps.get(0).get(\"tv3\").toString().length()","maps.get(0).get(\"tv3\").toString().length()"+maps.get(0).get("tv3").toString().length());
-                        if (!"".equals(maps.get(0).get("tv3").toString()) || !maps.get(0).get("tv3").toString().trim().equals("")) {
+                        if (!"" .equals(maps.get(0).get("tv3").toString()) || !maps.get(0).get("tv3").toString().trim().equals("")) {
                             xiaozhang_ly.setVisibility(View.VISIBLE);
                             Log.i("maps.get(0).get(\"tv3\").toString()", maps.get(0).get("tv3").toString());
 
@@ -396,7 +396,7 @@ public class TallyDetailNew extends TabActivity {
                             Trust1Adapter trust1Adapter = new Trust1Adapter(null, TallyDetailNew.this.getApplicationContext());
                             entrust1_spinner.setAdapter(trust1Adapter);
                         }
-                        if (!"".equals(maps.get(0).get("tv5")) || !maps.get(0).get("tv5").toString().trim().equals("")) {
+                        if (!"" .equals(maps.get(0).get("tv5")) || !maps.get(0).get("tv5").toString().trim().equals("")) {
                             shangwu_ly.setVisibility(View.VISIBLE);
                             Trust2Adapter trust2Adapter = new Trust2Adapter((List<Map<String, Object>>) maps.get(0).get("tv5"), TallyDetailNew.this.getApplicationContext());
                             entrust2_spinner.setAdapter(trust2Adapter);
@@ -485,6 +485,8 @@ public class TallyDetailNew extends TabActivity {
                         loadCornerPileData(stringObjectMap.get("CodeStorage").toString());
                         Carrier1 = stringObjectMap.get("Storage").toString();
                         Log.i("Carrier1的值是",""+Carrier1);
+                    }else{
+                        cornerpile_Auto.setEnabled(false);
                     }
                     if(!"".equals(stringObjectMap.get("Nvessel"))){
                         tv_tvboatdetail.setText(stringObjectMap.get("Nvessel").toString());
@@ -545,7 +547,11 @@ public class TallyDetailNew extends TabActivity {
                         Log.i(" CodeStorageLast", "" + CodeStorageLast);
                         loadCornerPileData(stringObjectMap.get("CodeStorage").toString());
                         Log.i("pubCodeStorage", "" + CodeStorageLast);
-                        Carrier2 =stringObjectMap.get("Storage").toString();}
+                        Carrier2 =stringObjectMap.get("Storage").toString();
+                    }
+                    else{
+                            ecornerpile_Auto.setEnabled(false);
+                    }
                     if(!"".equals(stringObjectMap.get("Nvessel"))){
                         tv_Eboatdetail.setText(stringObjectMap.get("Nvessel").toString());
                         Carrier2 =stringObjectMap.get("Nvessel").toString();
@@ -658,7 +664,6 @@ public class TallyDetailNew extends TabActivity {
                     }else{
 //                   表示  场地；
                         placeSflag ="1";
-//                        loadCornerPileData();
                         Log.i("placeSflag", "" + placeSflag);
                         tv_boatname.setText("场地");
                         tv_changbie.setText("桩角");
@@ -758,7 +763,7 @@ public class TallyDetailNew extends TabActivity {
 //                   表示  场地；
                         placeEflag ="1";
                         Log.i("placeEflag", "" + placeEflag);
-//                        loadCornerPileData();
+
                         tv_Eboatname.setText("场地");
                         tv_Echangbie.setText("桩角");
                         tv_Ehuowei.setText("堆");
@@ -926,6 +931,7 @@ public class TallyDetailNew extends TabActivity {
             }
         });
         Log.i("getCodeCompany()", "" + GlobalApplication.getLoginStatus().getCodeCompany());
+        Log.i("getCodeCompany()+GlobalApplication.getLoginStatus()", "" + GlobalApplication.getLoginStatus());
         Log.i("pubCodeStorage", "" + str+"/"+str);
         getCornerPileDataWork.beginExecute(GlobalApplication.getLoginStatus().getCodeCompany(),str);
     }

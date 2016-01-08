@@ -132,17 +132,19 @@ public class EndWork extends Activity {
         tv_task = (TextView) findViewById(R.id.tv_task);
         tv_Recordtime = (TextView) findViewById(R.id.tv_Recordtime);
         et_count = (EditText) findViewById(R.id.et_count);
+        et_count.setFocusable(true);
         et_count.setInputType(InputType.TYPE_CLASS_NUMBER);
         tv_note = (TextView) findViewById(R.id.tv_note);
         tv_balanceweight = (TextView) findViewById(R.id.tv_balanceweight);
         tv_subtime = (TextView) findViewById(R.id.tv_subtime);
         tv_note.setText(GlobalApplication.getLoginStatus().getNickname());
         teamAuto = (InstantAutoComplete) findViewById(R.id.et_group);
+//
+//        teamAuto.setEnabled(false);
         dataList = new ArrayList<>();
         spinner_over = (Spinner) findViewById(R.id.spinner_over);
         company = GlobalApplication.getLoginStatus().getCodeCompany();
-        loadValue(company);
-        Log.i("dataList的值", dataList.toString());
+
         endWork_btn = (Button) findViewById(R.id.save_btn);
         title.setText("完工");
         tv_entime.setText("选择时间");
@@ -262,6 +264,9 @@ public class EndWork extends Activity {
             }
         });
         //NFC
+        teamAuto.setFocusable(false);
+        loadValue(company);
+        Log.i("dataList的company值", dataList.toString());
     }
 
     // 定义在EditText中显示当前日期、时间的方法
@@ -282,12 +287,15 @@ public class EndWork extends Activity {
 
                 if (b) {
                     dataList.addAll(data);
-                    Log.i(" EndWorkAutoTeamWork dataList1的值", dataList.toString());
+                    teamAuto.setEnabled(true);
+                    teamAuto.setFocusable(true);
+                    Log.i(" EndWorkAutoTeamWork data的值", data.toString());
                     Log.i("data的值", data.toString());
-                    endWorkTeamAutoAdapter = new EndWorkTeamAutoAdapter(dataList, EndWork.this
+                    endWorkTeamAutoAdapter = new EndWorkTeamAutoAdapter(data, EndWork.this
                             .getApplicationContext());
                     teamAuto.setAdapter(endWorkTeamAutoAdapter);
                     teamAuto.setThreshold(0);  //设置输入一个字符 提示，默认为2
+
                     teamAuto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -310,12 +318,13 @@ public class EndWork extends Activity {
                             teamAuto.setText("");
                         }
                     });
-
+                    endWorkTeamAutoAdapter.notifyDataSetChanged();
                 } else {
-
-                    Log.i(" EndWorkAutoTeamWork dataList1的值", dataList.toString()+"/"+"失败");
+                    teamAuto.setFocusable(false);
+                    teamAuto.setEnabled(false);
+                    Log.i(" EndWorkAutoTeamWork data的值", data.toString()+"/"+"失败");
                 }
-                endWorkTeamAutoAdapter.notifyDataSetChanged();
+
             }
 
         });

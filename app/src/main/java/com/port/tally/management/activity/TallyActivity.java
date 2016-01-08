@@ -36,7 +36,8 @@ public class TallyActivity extends Activity {
     private ImageView imgLeft;
     private TextView title,tv_time;
     private String company =null;
-
+    private String time =null;
+    private String team =null;
     private Spinner spin_trust;
     private TallyManageAdapter tallyManageAdapter;
     private ProgressDialog progressDialog;
@@ -54,7 +55,7 @@ public class TallyActivity extends Activity {
         Init();
         loadDateAndWork();
         initListView();
-        showData(null, null, null, null, null);
+//        showData(null, null, null, null, null);
     }
 
     private void initListView() {
@@ -75,9 +76,8 @@ public class TallyActivity extends Activity {
             public void onLoadMore() {
                 String count = "5";
                 String stratcount = String.valueOf(flag);
-                String cargo = null;
-                String trustno = null;
-                loadValue(count, stratcount, company, cargo, trustno);
+
+                loadValue(count, stratcount, company, time, team);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,16 +118,21 @@ public class TallyActivity extends Activity {
                     if (stringObjectMap != null) {
                         Log.i("loadDateAndWork", "" + stringObjectMap);
                         tv_time.setText(stringObjectMap.get("TakeDate").toString());
+                        time =stringObjectMap.get("TakeDate").toString();
                         if(stringObjectMap.get("WorkTime").toString().equals("白班")){
-                            spin_trust.setSelection(0,true);
-                            showData(null, null, null, tv_time.getText().toString(), "白班");
+                            spin_trust.setSelection(0, true);
+                            team="白班";
+                            showData(null, null, null, tv_time.getText().toString(), team);
+
                         }
                         if(stringObjectMap.get("WorkTime").toString().equals("夜班")){
                             spin_trust.setSelection(1,true);
 //                            spin_trust.isSelected()
 //                                    spin_trust.
 //                                    spin_trust.setSelection();
-                            showData(null, null, null, tv_time.getText().toString(), "夜班");
+                            team="夜班";
+                            showData(null, null, null, tv_time.getText().toString(), team);
+
                         }
 
                     }else{
@@ -154,7 +159,8 @@ public class TallyActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 String[] languages = getResources().getStringArray(R.array.work);
-
+                    time =tv_time.getText().toString();
+                    team=languages[pos];
                 showData(null, null, null, tv_time.getText().toString(), languages[pos]);
 
 //                Toast.makeText(TallyActivity.this, "你点击的是:" + languages[pos], Toast.LENGTH_SHORT).show();
@@ -207,7 +213,8 @@ public class TallyActivity extends Activity {
 
                     tv_time.setText(date);
                 }
-                showData(null, null, null, tv_time.getText().toString(), "");
+                time=tv_time.getText().toString();
+                showData(null, null, null, time, team);
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar
@@ -224,11 +231,11 @@ public class TallyActivity extends Activity {
 
 
     //    显示数据
-    private void showData(String key, String type, String company,String cargo,String trustno) {
+    private void showData(String key, String type, String company,String time,String team) {
         key = "5";
         type = "1";
 
-        loadValue(key, type, company, cargo, trustno);
+        loadValue(key, type, company, time, team);
     }
 
 

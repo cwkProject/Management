@@ -76,7 +76,7 @@
         <item>@mipmap/stack_icon</item>
        <item>@mipmap/truck_work_icon</item>
         <item>@mipmap/truck_query_icon</item>
-        <item>@mipmap/work_plan_icon</item>
+        <!--<item>@mipmap/work_plan_icon</item>-->
         <item>@mipmap/shift_icon</item>
         <item>@mipmap/electron_map_icon</item>
         <!--<item>@mipmap/email</item>-->

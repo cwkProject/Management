@@ -15,7 +15,7 @@ public interface StaticValue {
     /**
      * 本应用编号
      */
-    String APP_CODE = "LHGL";
+    String APP_CODE = "DL_GWTXC";
 
     /**
      * 标识各种数据类型枚举
@@ -313,9 +313,8 @@ public interface StaticValue {
     //    理货跳转的第二个listview
     String HTTP_GET_TALLYTWO_URL = "http://218.92.115.55/M_DL_Gwtxc/Service/Slip/GetAllTallyBill.aspx";
     //    保存接口
-    // String HTTP_POST_TALLYSAVE_URL= "http://218.92.115.55/M_DL_Gwtxc/Service/Slip/SaveTallyBill
-    // .aspx";
-    String HTTP_POST_TALLYSAVE_URL = "http://10.199.10.220:8080/Service/Slip/SaveTallyBill.aspx";
+     String HTTP_POST_TALLYSAVE_URL= "http://218.92.115.55/M_DL_Gwtxc/Service/Slip/SaveTallyBill.aspx";
+//    String HTTP_POST_TALLYSAVE_URL = "http://192.168.1.106:8080/Service/Slip/SaveTallyBill.aspx";
     //    新子过程标志
     String HTTP_GET_SUBPROCESSNEW_URL = "http://218.92.115" + "" +
             ".55/M_DL_Gwtxc/Service/Slip/GetSavedSpecialMark.aspx";
