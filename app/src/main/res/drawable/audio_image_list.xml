@@ -2,11 +2,11 @@
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@android:drawable/presence_audio_online"
+        android:drawable="@mipmap/audio_online_icon"
         android:maxLevel="0"/>
 
     <item
-        android:drawable="@android:drawable/presence_audio_busy"
+        android:drawable="@mipmap/audio_busy_icon"
         android:maxLevel="1"/>
 
 </level-list>

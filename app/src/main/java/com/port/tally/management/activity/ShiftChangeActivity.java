@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -124,7 +125,7 @@ public class ShiftChangeActivity extends AppCompatActivity {
         /**
          * 发送按钮
          */
-        public ImageButton sendImageButton = null;
+        public AppCompatButton sendButton = null;
 
         /**
          * 收件人名称文本
@@ -191,8 +192,8 @@ public class ShiftChangeActivity extends AppCompatActivity {
 
         viewHolder.contentEditText = (EditText) findViewById(R.id.activity_shift_change_editText);
 
-        viewHolder.sendImageButton = (ImageButton) findViewById(R.id
-                .activity_shift_change_send_imageButton);
+        viewHolder.sendButton = (AppCompatButton) findViewById(R.id
+                .activity_shift_change_send_button);
 
         viewHolder.receiveTextView = (TextView) findViewById(R.id
                 .activity_shift_change_receive_textView);
@@ -427,24 +428,28 @@ public class ShiftChangeActivity extends AppCompatActivity {
      * 初始化发送按钮
      */
     private void initSendButton() {
-        viewHolder.sendImageButton.setOnClickListener(new View.OnClickListener() {
+
+        viewHolder.sendButton.setSupportBackgroundTintList(getResources().getColorStateList(R
+                .color.button_green_color));
+
+        viewHolder.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHolder.sendImageButton.setEnabled(false);
+                viewHolder.sendButton.setEnabled(false);
                 String text = viewHolder.contentEditText.getText().toString();
                 File[] images = viewHolder.imageListFragment.getData();
                 File[] audios = viewHolder.audioListFragment.getData();
 
                 if (text.isEmpty() && images == null && audios == null) {
                     // 无内容
-                    viewHolder.sendImageButton.setEnabled(true);
+                    viewHolder.sendButton.setEnabled(true);
                     return;
                 }
 
                 if (viewHolder.receiveEmployee == null || viewHolder.receiveEmployee.getId() ==
                         null) {
                     // 无收件人
-                    viewHolder.sendImageButton.setEnabled(true);
+                    viewHolder.sendButton.setEnabled(true);
                     // 消息发送失败
                     Toast.makeText(ShiftChangeActivity.this, R.string.alert_select_receive, Toast
                             .LENGTH_SHORT).show();
@@ -461,7 +466,7 @@ public class ShiftChangeActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        viewHolder.sendImageButton.setEnabled(true);
+                                        viewHolder.sendButton.setEnabled(true);
                                         if (data) {
                                             // 消息发送成功
                                             // 清除缓存
@@ -503,8 +508,7 @@ public class ShiftChangeActivity extends AppCompatActivity {
     private void initData() {
 
         String user_id = viewHolder.sendCacheTool.getForText(StaticValue.IntentTag.USER_ID_TAG);
-        if (user_id != null && !user_id.equals(GlobalApplication.getLoginStatus()
-                .getUserID())) {
+        if (user_id != null && !user_id.equals(GlobalApplication.getLoginStatus().getUserID())) {
             // 更换了用户
             return;
         }
@@ -563,7 +567,8 @@ public class ShiftChangeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AudioFileLengthFunction.release();
-        viewHolder.sendCacheTool.put(StaticValue.IntentTag.USER_ID_TAG, GlobalApplication.getLoginStatus().getUserID());
+        viewHolder.sendCacheTool.put(StaticValue.IntentTag.USER_ID_TAG, GlobalApplication
+                .getLoginStatus().getUserID());
 
         try {
             // 保存数据

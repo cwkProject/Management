@@ -5,10 +5,12 @@ package com.port.tally.management.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -120,6 +122,11 @@ public class StockQueryActivity extends AppCompatActivity {
          * 保留上次查询数据
          */
         public String oldParameter = null;
+
+        /**
+         * 下拉刷新控件
+         */
+        public SwipeRefreshLayout refreshLayout = null;
     }
 
     /**
@@ -142,8 +149,13 @@ public class StockQueryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // 初始化数据
-        resetData();
+        viewHolder.refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                // 初始化数据
+                resetData();
+            }
+        });
     }
 
     /**
@@ -166,6 +178,9 @@ public class StockQueryActivity extends AppCompatActivity {
         viewHolder.forwarderEditText = (EditText) findViewById(R.id.forwarder_edit_editText);
 
         viewHolder.storageEditText = (EditText) findViewById(R.id.storage_edit_editText);
+
+        viewHolder.refreshLayout = (SwipeRefreshLayout) findViewById(R.id
+                .activity_stock_query_swipeRefreshLayout);
     }
 
     /**
@@ -179,6 +194,25 @@ public class StockQueryActivity extends AppCompatActivity {
         initListView();
         // 初始化过滤器
         initFilter();
+        // 初始化刷新控件
+        initSwipeRefresh();
+    }
+
+    /**
+     * 初始化刷新控件
+     */
+    private void initSwipeRefresh() {
+
+        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimary});
+
+        viewHolder.refreshLayout.setColorSchemeResources(typedArray.getResourceId(0, 0));
+
+        viewHolder.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
     }
 
     /**
@@ -519,6 +553,7 @@ public class StockQueryActivity extends AppCompatActivity {
                 viewHolder.storageEditText.getText().toString();
 
         if (viewHolder.oldParameter == null || !viewHolder.oldParameter.equals(newParameter)) {
+            viewHolder.refreshLayout.setRefreshing(true);
             initData();
             viewHolder.oldParameter = newParameter;
         }
@@ -567,6 +602,9 @@ public class StockQueryActivity extends AppCompatActivity {
 
                 // 改变请求状态
                 viewHolder.loading = false;
+
+                // 停止动画
+                viewHolder.refreshLayout.setRefreshing(false);
             }
         });
 
